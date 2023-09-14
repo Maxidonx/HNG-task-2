@@ -20,12 +20,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get("SECRET_KEY")
+SECRET_KEY = 'django-insecure-d=%)8fe75b4)f!f*&t!b0y1q1=*ani8jl039ygqrmch)nu*7od'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = os.environ.get("DEBUG", "False")==True
 
-ALLOWED_HOSTS = os.environ.get("ALLOWED_HOSTS").split(" ")
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -77,15 +77,13 @@ WSGI_APPLICATION = 'HNG.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'HNG2',
-        'USER': 'maxwell',
-        'PASSWORD': 'Maxidonx',
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR/ "db.sqlite3",
     }
 }
 database_url= os.environ.get("DATABASE_URL")
 DATABASES ['default']= dj_database_url.parse(database_url)
-#postgres://maxwell_user:Y2ElhzHjJoX3C8pC5fSKvanzfxcCedO3@dpg-ck1gst6ru70s73dnns5g-a.oregon-postgres.render.com/maxwell
+
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
