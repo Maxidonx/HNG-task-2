@@ -9,15 +9,15 @@ class PersonViewset(viewsets.ModelViewSet):
     serializer_class = PersonSerializer
 
     def retrieve(self, request, pk=None):
-        # Try to retrieve by id first
-        if pk.isdigit():
-            person = get_object_or_404(Person, id=pk)
-        else:
-            # If not a valid integer, assume it's a fullname
-            person = get_object_or_404(Person, fullname=pk)
-
-        serializer = PersonSerializer(person)
-        return Response(serializer.data)
+        try:
+            if pk.isdigit():
+                person = Person.objects.get(id=pk)
+            else:
+                person = Person.objects.get(fullname=pk)
+            serializer = PersonSerializer(person)
+            return Response(serializer.data)
+        except Person.DoesNotExist:
+            return Response({'detail': 'Person not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     def create(self, request):
         serializer = PersonSerializer(data=request.data)
@@ -27,26 +27,28 @@ class PersonViewset(viewsets.ModelViewSet):
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
 
     def update(self, request, pk=None):
-        # Attempt to retrieve by id
-        if pk.isdigit():
-            instance = get_object_or_404(Person, id=pk)
-        else:
-            # If not a valid integer, assume it's a fullname
-            instance = get_object_or_404(Person, fullname=pk)
+        try:
+            if pk.isdigit():
+                instance = Person.objects.get(id=pk)
+            else:
+                instance = Person.objects.get(fullname=pk)
 
-        serializer = PersonSerializer(instance, data=request.data)
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+            serializer = PersonSerializer(instance, data=request.data)
+            if serializer.is_valid():
+                serializer.save()
+                return Response(serializer.data)
+            return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+        except Person.DoesNotExist:
+            return Response({'detail': 'Person not found.'}, status=status.HTTP_404_NOT_FOUND)
 
     def destroy(self, request, pk=None):
-        # Attempt to retrieve by id
-        if pk.isdigit():
-            instance = get_object_or_404(Person, id=pk)
-        else:
-            # If not a valid integer, assume it's a fullname
-            instance = get_object_or_404(Person, fullname=pk)
+        try:
+            if pk.isdigit():
+                instance = Person.objects.get(id=pk)
+            else:
+                instance = Person.objects.get(fullname=pk)
 
-        instance.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+            instance.delete()
+            return Response(status=status.HTTP_204_NO_CONTENT)
+        except Person.DoesNotExist:
+            return Response({'detail': 'Person not found.'}, status=status.HTTP_404_NOT_FOUND)
