@@ -7,7 +7,7 @@ from django.shortcuts import get_object_or_404
 class PersonViewset(viewsets.ModelViewSet):
     queryset = Person.objects.all()
     serializer_class = PersonSerializer
-    parser_classes = [parsers.MultiPartParser]  # Add MultiPartParser for handling 'multipart/form-data'
+    parser_classes = [parsers.MultiPartParser, parsers.JSONParser, parsers.FormParser]  # Handle multiple content types
 
     def retrieve(self, request, pk=None):
         # Try to retrieve by id first

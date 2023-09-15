@@ -89,16 +89,19 @@ here describes the API endpoints of my projects. Include the endpoint URLs, HTTP
 Create Person: POST "/api/"
 
 Create a new person with the provided data.
-Read Person: GET "/api/{person_id}"
+Read Person: GET "/api/{person id OR name}"
 
 Retrieve details of a specific person by ID.
-Update Person: PUT "/api/{person_id}"
+Update Person: PUT "/api/{person id or name}"
 
 Update the details of an existing person by ID.
-Delete Person: DELETE "/api/{person_id}"
+Delete Person: DELETE "/api/{person id or name}"
 
-Delete a person by ID.
+Delete a person by id or name.
 ```
+# DATABASE
+In this it is god to point out that PostreSQL was used as the database management system for this porject.
+
 # Known Limitations
 The API supports only JSON data format.
 Error handling for invalid requests is not comprehensive in this version.
@@ -145,6 +148,13 @@ python manage.py runserver
 ```
 
 Now, your Django Project API is up and running locally at http://localhost:8000/.
+
+# Testing
+- Localhost:8000/api/
+- Server_url https://hng-task-2-wqfj.onrender.com/api/
+- * ENSURE YOU TEST EACH ENDPOINTS WITH POSTMAN 
+
+# A UML Diagram is attached to this project to further discribe this project.
 
 
 
