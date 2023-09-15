@@ -132,7 +132,8 @@ REST_FRAMEWORK = {
         'rest_framework.renderers.BrowsableAPIRenderer',
     ],
     'DEFAULT_PARSER_CLASSES': [
-        'rest_framework.parsers.JSONParser',  # Use JSON for parsing
+        'rest_framework.parsers.JSONParser',# Use JSON for parsing 
+        'rest_framework.parsers.FormParser', # Use Form for parsing
     ],
     'JSON_RENDERER_INDENT': 2,  # Indent JSON responses with 2 spacing
 }
