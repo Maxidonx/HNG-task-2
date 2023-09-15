@@ -1,64 +1,41 @@
 import requests
 
-# Define the base URL of your Django API
-base_url = 'http://127.0.1:8000/'  # Replace with your actual API URL
+BASE_URL = 'http://localhost:8000/'  # Replace with your API URL
 
-# Prompt the user to enter the criteria (id or name)
-criteria = input("Enter the person's ID or full name: ")
+def make_get_request():
+    # Your GET request logic here
+    pass
 
-# Determine whether the criteria is an id or a name
-if criteria.isdigit():
-    # If it's a digit, assume it's an id
-    url = base_url + f'api/{criteria}/'
-else:
-    # If it's not a digit, assume it's a name
-    url = base_url + f'api/?fullname={criteria}'
+def make_post_request(data):
+    url = BASE_URL + 'api/'
+    headers = {'Content-Type':'multipart/form-data'}  # Set the content type
+    response = requests.post(url, data=data, headers=headers)
+    return response
 
-# Define headers for application/x-www-form-urlencoded
-headers = {
-    'Content-Type': 'application/x-www-form-urlencoded',
-}
+def make_put_request(person_id, data):
+    url = BASE_URL + f'api/{person_id}/'
+    headers = {'Content-Type': 'multipart/form-data'}  # Set the content type
+    response = requests.put(url, data=data, headers=headers)
+    return response
 
-# Send a GET request to retrieve the person with headers
-retrieve_response = requests.get(url, headers=headers)
+def make_delete_request(person_id):
+    url = BASE_URL + f'api/{person_id}/'
+    response = requests.delete(url)
+    return response
 
-# Print the response for the GET request
-print('Retrieve Response:')
-print('Status Code:', retrieve_response.status_code)
-print('Response Content:', retrieve_response.text)
+def make_custom_get_request():
+    criteria = input("Enter the person's ID or full name: ")
+    if criteria.isdigit():
+        url = BASE_URL + f'api/{criteria}/'
+    else:
+        url = BASE_URL + f'api/?fullname={criteria}'
+    response = requests.get(url)
+    return response
 
-# Extract the person's ID from the response JSON
-person_id = None
-if retrieve_response.status_code == 200:
-    person_data = retrieve_response.json()
-    if person_data:
-        person_id = person_data[0]['id']
+# ... other request functions ...
 
-# Prompt the user to enter the person's full name and track
-fullname = input("Enter the person's full name: ")
-track = input("Enter the person's track: ")
-
-# Define the updated data for the PUT request
-updated_person_data = {
-    'fullname': fullname,
-    'track': track,
-}
-
-# Send a PUT request to update the person's data (based on either id or name) with headers
-if person_id is not None:
-    update_url = base_url + f'api/{person_id}/'
-    update_response = requests.put(update_url, data=updated_person_data, headers=headers)
-
-    # Print the response for the PUT request
-    print('\nUpdate Response:')
-    print('Status Code:', update_response.status_code)
-    print('Response Content:', update_response.text)
-
-# Send a DELETE request to delete the person (based on either id or name) with headers
-if person_id is not None:
-    delete_url = base_url + f'api/{person_id}/'
-    delete_response = requests.delete(delete_url, headers=headers)
-
-    # Print the response for the DELETE request
-    print('\nDelete Response:')
-    print('Status Code:', delete_response.status_code)
+if __name__ == "__main__":
+    # You can add some test code here to run when this script is executed directly
+    response = make_custom_get_request()
+    print(response.status_code)
+    print(response.text)
